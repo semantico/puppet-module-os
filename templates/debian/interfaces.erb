@@ -1,0 +1,37 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+<% 
+  debian_interfaces.each do |spec| 
+      a = spec.split('/')
+-%>
+auto <%= a[0] %>
+<%  if a[1] == 'dhcp' -%>  
+iface <%= a[0] -%> inet dhcp
+<%  else -%>  
+iface <%= a[0] -%> inet static
+<%   if a[0].to_s =~ /^bond[0-9]+$/ -%>
+        pre-up modprobe <%= a[0] %>
+<%   end -%>
+        address <%= a[1] %>
+        netmask <%= a[2] %>
+<%   if a[3] -%>
+        broadcast <%= a[3] %>
+<%   end -%>
+<%   if a[4].to_s != "" -%>
+        gateway <%= a[4] %>
+<%   end -%>
+<%   if a[5].to_s != "" -%>
+        up ifenslave <%= a[0] -%> <%= a[5] %>
+        down ifenslave -d <%= a[0] -%> <%= a[5] %>
+<%   end -%>
+<%   if a[6].to_s != "" -%>
+        post-up /etc/network/<%= a[0] -%>_post-up
+<%   end -%>
+<%  end -%>
+
+<% end -%>

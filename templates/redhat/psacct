@@ -1,0 +1,19 @@
+# Logrotate file for psacct RPM
+#MANAGED BY PUPPET
+<%= pacct_log -%> {
+# prerotate loses accounting records, let's no
+#prerotate
+#        /usr/sbin/accton
+#endscript
+    compress
+    delaycompress
+    notifempty
+    daily
+    rotate 3
+    create 0600 root root
+    postrotate
+        /usr/sbin/accton <%= pacct_log %>
+
+        
+    endscript
+}

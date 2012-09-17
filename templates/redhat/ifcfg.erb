@@ -1,0 +1,22 @@
+# MANAGED BY PUPPET!
+DEVICE=<%= device %>
+BOOTPROTO=<%= bootproto %>
+ONBOOT=<%= onboot %>
+<% if bootproto == "static" -%>
+IPADDR=<%= ipaddr %>
+NETMASK=<%= netmask %>
+<%     if broadcast -%>
+BROADCAST=<%= broadcast %>
+<%     end -%>
+<%     if gateway -%>
+GATEWAY=<%= gateway %>
+<%     end -%>
+<% end -%>
+TYPE=<%= interface_type %>
+<% if hwaddr -%>
+HWADDR=<%= hwaddr %>
+<% end -%>
+<% extra_args.each do |line| -%>
+<%= line %>
+<% end -%>
+

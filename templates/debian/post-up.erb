@@ -1,0 +1,18 @@
+#!/bin/sh
+<% if ethtool_interfaces 
+    ethtool_interfaces.each do |interface| 
+-%>
+ethtool -s <%= interface -%> speed <%= ethtool_speed -%> duplex <%= ethtool_duplex -%> autoneg off
+
+<% end -%>
+<% end -%>
+
+<% if route_pairs
+    route_pairs.each do |route_pair|
+        #split into route, gateway
+        route_array = route_pair.split(':') 
+-%>
+/sbin/ip route replace <%= route_array[0] -%> via <%= route_array[1] %>
+
+<% end -%>
+<% end -%>
