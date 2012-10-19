@@ -91,6 +91,10 @@ class os::redhat::virtual_resources::packages {
 
     # Mainly for logcheck, but we use it in other modules too, hence Virtual
     @package { logtail: ensure => present, tag => 'autoapply' }
+
+    # we need this to autocreate passwords on puppetmaster, but generally useful
+    @package { pwgen: ensure => present, tag => 'autoapply' }
+    
     
     #This is busted on rhel4, and although fixed in rawhide not available as a rpm update..
     case $lsbmajdistrelease {
