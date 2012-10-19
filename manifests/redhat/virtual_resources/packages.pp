@@ -95,7 +95,6 @@ class os::redhat::virtual_resources::packages {
     # we need this to autocreate passwords on puppetmaster, but generally useful
     @package { pwgen: ensure => present, tag => 'autoapply' }
     
-    
     #This is busted on rhel4, and although fixed in rawhide not available as a rpm update..
     case $lsbmajdistrelease {
         4: {
